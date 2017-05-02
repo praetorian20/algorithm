@@ -8,12 +8,18 @@
 /// \file  all_of.hpp
 /// \brief Test ranges to see if all elements match a value or predicate.
 /// \author Marshall Clow
+/// \author Ashish Sadanandan
 
 #ifndef BOOST_ALGORITHM_ALL_OF_HPP
 #define BOOST_ALGORITHM_ALL_OF_HPP
 
+#include <boost/config.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
+
+#ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
+#include <initializer_list>
+#endif
 
 namespace boost { namespace algorithm {
 
@@ -48,6 +54,21 @@ bool all_of ( const Range &r, Predicate p )
     return boost::algorithm::all_of ( boost::begin (r), boost::end (r), p );
 } 
 
+#ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
+/// \fn all_of ( initializer_list l, Predicate p )
+/// \return true if all elements in the initializer list satisfy the predicate 'p'
+/// \note returns true on an empty range
+///
+/// \param r    The input range
+/// \param p    A predicate for testing the elements of the range
+///
+template<typename T, typename Predicate>
+BOOST_CXX14_CONSTEXPR bool all_of ( std::initializer_list<T> l, Predicate p )
+{
+    return boost::algorithm::all_of ( l.begin(), l.end(), p );
+}
+#endif
+
 /// \fn all_of_equal ( InputIterator first, InputIterator last, const T &val )
 /// \return true if all elements in [first, last) are equal to 'val'
 /// \note returns true on an empty range
@@ -77,6 +98,21 @@ bool all_of_equal ( const Range &r, const T &val )
 {
     return boost::algorithm::all_of_equal ( boost::begin (r), boost::end (r), val );
 } 
+
+#ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
+/// \fn all_of_equal ( initializer_list l, const V &val )
+/// \return true if all elements in the initializer list are equal to 'val'
+/// \note returns true on an empty range
+///
+/// \param r    The input range
+/// \param val  A value to compare against
+///
+template<typename T, typename V> 
+BOOST_CXX14_CONSTEXPR bool all_of_equal ( std::initializer_list<T> l, const V &val ) 
+{
+    return boost::algorithm::all_of_equal ( l.begin(), l.end(), val );
+}
+#endif
 
 }} // namespace boost and algorithm
 
